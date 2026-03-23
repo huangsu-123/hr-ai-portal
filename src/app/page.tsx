@@ -1,15 +1,42 @@
 import Link from "next/link";
 import { ContentCard } from "@/components/ContentCard";
-import { ShortVideoCard } from "@/components/ShortVideoCard";
-import { collections, contents, shortVideos, updates } from "@/data/portal";
-import { latestDate, stats } from "@/lib/portal";
+import { KeywordRadarBoard } from "@/components/KeywordRadarBoard";
+import { ShortVideoWall } from "@/components/ShortVideoWall";
+import { collections, contents, shortVideos } from "@/data/portal";
+import { getRealtimeUpdatesWithMeta } from "@/lib/live-updates";
+import { stats } from "@/lib/portal";
+
+const recentCourseCutoff = "2025-12-23";
 
 const featured = contents.filter((item) => item.featured).slice(0, 6);
-const domestic = contents.filter((item) => item.sourceRegion === "CN").slice(0, 4);
-const global = contents.filter((item) => item.sourceRegion === "GLOBAL").slice(0, 4);
-const latestUpdates = updates.filter((item) => item.publishDate === latestDate).slice(0, 6);
+const globalFreeCourses = contents
+  .filter(
+    (item) =>
+      item.type === "course" &&
+      item.sourceRegion === "GLOBAL" &&
+      !item.loginRequired &&
+      (item.publishDate ?? "") >= recentCourseCutoff,
+  )
+  .sort((a, b) => (b.publishDate ?? "").localeCompare(a.publishDate ?? ""))
+  .slice(0, 4);
+const domesticHighlights = contents.filter((item) => item.sourceRegion === "CN").slice(0, 4);
+const practicalExamples = contents
+  .filter(
+    (item) =>
+      item.type === "video" ||
+      item.type === "case" ||
+      item.tags.includes("流程自动化") ||
+      item.tags.includes("实操"),
+  )
+  .slice(0, 4);
 
-export default function HomePage() {
+export const revalidate = 600;
+
+export default async function HomePage() {
+  const { items: realtimeUpdates, mode, generatedAt } = await getRealtimeUpdatesWithMeta(18);
+  const latestDate = realtimeUpdates.reduce((max, item) => (item.publishDate > max ? item.publishDate : max), "");
+  const latestUpdates = realtimeUpdates.filter((item) => item.publishDate === latestDate).slice(0, 6);
+
   return (
     <div className="container pageStack">
       <section className="hero">
@@ -17,7 +44,7 @@ export default function HomePage() {
           <p className="eyebrow">内容中台 + 资料门户</p>
           <h1>HR AI 学习资料库与行业情报站</h1>
           <p>
-            面向游戏和互联网 HR 团队，集中沉淀 AI/Agent 学习资料、行业动态、模板与场景案例。每条海外内容都提供中文辅助理解，支持团队快速分享和复用。
+            面向游戏和互联网 HR 团队，集中沉淀全球免费 AI 学习资料、行业动态、模板与场景案例。每条海外内容都提供中文辅助理解，支持团队快速分享和复用。
           </p>
           <div className="heroActions">
             <Link href="/library" className="btn primary">
@@ -31,8 +58,8 @@ export default function HomePage() {
         <div className="heroPanel">
           <h3>平台价值点</h3>
           <ul>
-            <li>资料集中：课程/文章/视频/模板统一检索</li>
-            <li>持续更新：每日与每周行业情报结构化沉淀</li>
+            <li>全球免费：课程/文章/视频/模板统一检索</li>
+            <li>实时更新：每 10 分钟刷新一次情报数据</li>
             <li>中文辅助：海外内容标注中文摘要与字幕状态</li>
             <li>方便分享：详情页、专题合集、转发摘要一次到位</li>
           </ul>
@@ -43,7 +70,7 @@ export default function HomePage() {
             </div>
             <div>
               <strong>{stats.updateCount}</strong>
-              <span>情报更新</span>
+              <span>种子情报</span>
             </div>
             <div>
               <strong>{stats.templateCount}</strong>
@@ -61,17 +88,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section">
-        <div className="sectionHead">
-          <h2>短视频科普（抖音）</h2>
-          <p className="muted">3-4 分钟快速理解一个 AI Agent 重点，学习更轻松</p>
-        </div>
-        <div className="grid3">
-          {shortVideos.map((item) => (
-            <ShortVideoCard key={item.id} item={item} />
-          ))}
-        </div>
-      </section>
+      <ShortVideoWall videos={shortVideos} />
 
       <section className="section">
         <div className="sectionHead">
@@ -80,16 +97,25 @@ export default function HomePage() {
             进入行业情报页
           </Link>
         </div>
+        <p className="muted smallLine">
+          实时状态：{mode === "live" ? "实时抓取中" : "回退种子数据"} · 最近抓取：{formatDatetime(generatedAt)}
+        </p>
         <div className="listBoard">
           {latestUpdates.map((item) => (
             <article key={item.id} className="listItem">
+              <div className={`updateThumb ${item.sourceRegion === "GLOBAL" ? "global" : "cn"}`}>
+                <span>{item.sourceRegion === "GLOBAL" ? "海外" : "国内"}</span>
+                <strong>{item.category}</strong>
+              </div>
               <div>
                 <h3>{item.title}</h3>
                 <p>{item.chineseSummary}</p>
+                <p className="smallLine">与 HR 的关系：{item.relevanceToHR}</p>
               </div>
               <span>{item.publishDate}</span>
             </article>
           ))}
+          {!latestUpdates.length ? <div className="empty">当前暂无更新，稍后自动刷新。</div> : null}
         </div>
       </section>
 
@@ -110,10 +136,10 @@ export default function HomePage() {
 
       <section className="section">
         <div className="sectionHead">
-          <h2>国内内容专区</h2>
+          <h2>海外免登录课程专区</h2>
         </div>
         <div className="grid2">
-          {domestic.map((item) => (
+          {globalFreeCourses.map((item) => (
             <ContentCard key={item.id} item={item} />
           ))}
         </div>
@@ -121,12 +147,33 @@ export default function HomePage() {
 
       <section className="section">
         <div className="sectionHead">
-          <h2>海外内容专区（含中文辅助）</h2>
+          <h2>国内内容专区</h2>
         </div>
         <div className="grid2">
-          {global.map((item) => (
+          {domesticHighlights.map((item) => (
             <ContentCard key={item.id} item={item} />
           ))}
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="sectionHead">
+          <h2>图文与实操案例专区</h2>
+        </div>
+        <div className="grid2">
+          {practicalExamples.map((item) => (
+            <ContentCard key={item.id} item={item} />
+          ))}
+        </div>
+      </section>
+
+      <KeywordRadarBoard compact />
+      <section className="section">
+        <div className="sectionHead">
+          <h2>关键词雷达深度入口</h2>
+          <Link href="/resume-keywords" className="textLink">
+            查看完整关键词解释与实时信号
+          </Link>
         </div>
       </section>
 
@@ -165,4 +212,12 @@ export default function HomePage() {
       </section>
     </div>
   );
+}
+
+function formatDatetime(raw: string) {
+  const date = new Date(raw);
+  if (Number.isNaN(date.getTime())) {
+    return raw;
+  }
+  return date.toLocaleString("zh-CN", { hour12: false });
 }

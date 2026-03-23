@@ -1,22 +1,46 @@
-import { updates } from "@/data/portal";
-import { latestDate, regionLabel } from "@/lib/portal";
+import { getRealtimeUpdatesWithMeta } from "@/lib/live-updates";
+import { regionLabel } from "@/lib/portal";
+import type { UpdateItem } from "@/types/portal";
 
-const todayUpdates = updates.filter((item) => item.publishDate === latestDate);
-const weekHighlights = updates.slice(0, 7);
-const cnUpdates = updates.filter((item) => item.sourceRegion === "CN");
-const globalUpdates = updates.filter((item) => item.sourceRegion === "GLOBAL");
-const hrFocus = updates.filter((item) => item.hrFocus);
-const toolUpdates = updates.filter((item) => item.toolUpdate);
+export const revalidate = 600;
 
-export default function IntelPage() {
+export default async function IntelPage() {
+  const { items, mode, generatedAt } = await getRealtimeUpdatesWithMeta(30);
+  const latestDate = items.reduce((max, item) => (item.publishDate > max ? item.publishDate : max), "");
+  const todayUpdates = items.filter((item) => item.publishDate === latestDate);
+  const weekHighlights = items.slice(0, 8);
+  const cnUpdates = items.filter((item) => item.sourceRegion === "CN");
+  const globalUpdates = items.filter((item) => item.sourceRegion === "GLOBAL");
+  const hrFocus = items.filter((item) => item.hrFocus);
+  const toolUpdates = items.filter((item) => item.toolUpdate);
+  const hotTags = Array.from(new Set(items.flatMap((item) => item.tags))).slice(0, 12);
+
   return (
     <div className="container pageStack">
       <section className="section">
         <p className="eyebrow">每日更新 / 行业情报</p>
-        <h1>AI / Agent / HR 行业情报台</h1>
+        <h1>AI / Agent / HR 实时情报台</h1>
         <p className="muted">
-          重点展示今日更新、本周重点、国内/海外动态、HR 重点关注和工具更新。所有海外动态都提供中文摘要，便于直接团队传播。
+          内容每 10 分钟自动抓取一次（失败自动回退到本地种子数据），按国内/海外分层呈现，并附中文摘要，方便 HR 团队快速判断价值。
         </p>
+        <div className="badgeRow">
+          <span className={mode === "live" ? "badge ok" : "badge warn"}>
+            实时状态：{mode === "live" ? "实时抓取中" : "回退种子数据"}
+          </span>
+          <span className="badge">最近抓取：{formatDatetime(generatedAt)}</span>
+          <span className="badge">数据范围：全球公开免费 + 国内精选</span>
+        </div>
+      </section>
+
+      <section className="section">
+        <h2>热点标签</h2>
+        <div className="chipRow">
+          {hotTags.map((tag) => (
+            <span key={tag} className="chip">
+              {tag}
+            </span>
+          ))}
+        </div>
       </section>
 
       <section className="section">
@@ -40,6 +64,11 @@ export default function IntelPage() {
         </article>
       </section>
 
+      <section className="section">
+        <h2>全部动态快览</h2>
+        <UpdateList items={items.slice(0, 10)} compact />
+      </section>
+
       <section className="section split">
         <article className="panelBox">
           <h2>HR 重点关注</h2>
@@ -58,13 +87,21 @@ function UpdateList({
   items,
   compact,
 }: {
-  items: typeof updates;
+  items: UpdateItem[];
   compact?: boolean;
 }) {
+  if (!items.length) {
+    return <div className="empty">当前分组暂无数据，稍后会自动刷新。</div>;
+  }
+
   return (
     <div className={compact ? "listBoard compact" : "listBoard"}>
       {items.map((item) => (
         <article key={item.id} className="listItem">
+          <div className={`updateThumb ${item.sourceRegion === "GLOBAL" ? "global" : "cn"}`}>
+            <span>{item.sourceRegion === "GLOBAL" ? "海外" : "国内"}</span>
+            <strong>{item.category}</strong>
+          </div>
           <div>
             <h3>{item.title}</h3>
             <p>{item.chineseSummary}</p>
@@ -81,4 +118,12 @@ function UpdateList({
       ))}
     </div>
   );
+}
+
+function formatDatetime(raw: string) {
+  const date = new Date(raw);
+  if (Number.isNaN(date.getTime())) {
+    return raw;
+  }
+  return date.toLocaleString("zh-CN", { hour12: false });
 }

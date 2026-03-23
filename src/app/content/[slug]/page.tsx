@@ -50,6 +50,10 @@ export default async function ContentDetailPage({ params }: DetailProps) {
             {item.publishDate ?? item.duration ?? "持续更新"}
           </p>
           <p>
+            <strong>登录要求：</strong>
+            {item.loginRequired ? "需要登录后查看" : "免登录可直接查看"}
+          </p>
+          <p>
             <strong>适合直接分享：</strong>
             {item.translationAvailable ? "是（含中文辅助）" : "建议先做导读"}
           </p>

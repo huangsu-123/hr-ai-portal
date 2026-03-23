@@ -13,6 +13,8 @@ const themeOptions = ["全部", "AI Agent", "招聘", "HRBP", "提示词", "合�
 const regionOptions = ["全部", "国内", "海外"];
 const langOptions = ["全部", "中文", "英文", "多语言", "其他"];
 const statusOptions = ["全部", "已翻译", "有中文字幕", "有中文摘要"];
+const accessOptions = ["全部", "免费"];
+const loginOptions = ["全部", "免登录"];
 const audienceOptions: (AudienceType | "全部")[] = [
   "全部",
   "招聘 HR",
@@ -29,12 +31,15 @@ export function ContentLibrary() {
   const [region, setRegion] = useState("全部");
   const [lang, setLang] = useState("全部");
   const [status, setStatus] = useState("全部");
+  const [access, setAccess] = useState("免费");
+  const [loginRequirement, setLoginRequirement] = useState("免登录");
   const [audience, setAudience] = useState<AudienceType | "全部">("全部");
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
 
-    return contents.filter((item) => {
+    return contents
+      .filter((item) => {
       const matchQuery =
         !q ||
         item.title.toLowerCase().includes(q) ||
@@ -44,9 +49,14 @@ export function ContentLibrary() {
 
       const matchType = type === all || item.type === type;
       const matchTheme = theme === all || item.tags.includes(theme);
-      const matchRegion = region === all || (region === "国内" ? item.sourceRegion === "CN" : item.sourceRegion === "GLOBAL");
+      const matchRegion =
+        region === all ||
+        (region === "国内" && item.sourceRegion === "CN") ||
+        (region === "海外" && item.sourceRegion === "GLOBAL");
       const matchLang = lang === all || item.originalLanguage === lang;
       const matchAudience = audience === all || item.audience.includes(audience);
+      const matchAccess = access === all || item.access === "free";
+      const matchLogin = loginRequirement === all || !item.loginRequired;
 
       const matchStatus =
         status === all ||
@@ -54,9 +64,20 @@ export function ContentLibrary() {
         (status === "有中文字幕" && item.subtitleAvailable) ||
         (status === "有中文摘要" && item.translationAvailable);
 
-      return matchQuery && matchType && matchTheme && matchRegion && matchLang && matchStatus && matchAudience;
-    });
-  }, [audience, lang, query, region, status, theme, type]);
+      return (
+        matchQuery &&
+        matchType &&
+        matchTheme &&
+        matchRegion &&
+        matchLang &&
+        matchStatus &&
+        matchAccess &&
+        matchLogin &&
+        matchAudience
+      );
+      })
+      .sort((a, b) => (b.publishDate ?? "").localeCompare(a.publishDate ?? ""));
+  }, [access, audience, lang, loginRequirement, query, region, status, theme, type]);
 
   return (
     <div className="section pageStack">
@@ -74,6 +95,8 @@ export function ContentLibrary() {
         <Select label="来源地区" value={region} onChange={setRegion} options={regionOptions} />
         <Select label="语言" value={lang} onChange={setLang} options={langOptions} />
         <Select label="状态" value={status} onChange={setStatus} options={statusOptions} />
+        <Select label="收费方式" value={access} onChange={setAccess} options={accessOptions} />
+        <Select label="查看门槛" value={loginRequirement} onChange={setLoginRequirement} options={loginOptions} />
         <Select label="适合对象" value={audience} onChange={setAudience} options={audienceOptions} />
       </div>
       <div className="sectionHead">

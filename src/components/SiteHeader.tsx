@@ -7,6 +7,7 @@ const navItems = [
   { href: "/", label: "首页" },
   { href: "/library", label: "资料中心" },
   { href: "/intel", label: "行业情报" },
+  { href: "/resume-keywords", label: "关键词雷达" },
   { href: "/agent-playbook", label: "Agent 专题" },
   { href: "/templates", label: "模板资源" },
   { href: "/collections", label: "专题合集" },

@@ -631,14 +631,154 @@ const seedContents: Omit<ContentItem, "access">[] = [
     featured: false,
     collectionIds: ["col-global-trend"],
   },
+  {
+    id: "ct-027",
+    slug: "youtube-huggingface-agents-playlist",
+    title: "Hugging Face Agent 公开课视频合集（YouTube）",
+    type: "course",
+    sourceName: "Hugging Face YouTube",
+    sourceUrl: "https://www.youtube.com/@huggingface/videos",
+    sourceRegion: "GLOBAL",
+    originalLanguage: "英文",
+    duration: "持续更新",
+    tags: ["Agent 基础", "海外趋势", "视频课程"],
+    audience: ["招聘 HR", "HRBP", "COE / OD"],
+    summary: "Hugging Face 官方公开视频合集，包含 Agent、模型应用与实操讲解。",
+    chineseSummary: "免登录可直接看，适合每周挑 1 个短视频给团队做 10 分钟导读。",
+    relevanceToHR: "适用于快速跟进海外 Agent 实操变化。",
+    translationAvailable: true,
+    subtitleAvailable: true,
+    recommendedAudience: "想用视频快速补课的 HR 团队",
+    recommendedAction: "优先筛选 10 分钟以内视频，做团队午间共学。",
+    shareSummary: "免登录公开视频，学习门槛低。",
+    featured: true,
+    collectionIds: ["col-global-trend"],
+  },
+  {
+    id: "ct-028",
+    slug: "youtube-openai-developers",
+    title: "OpenAI Developers 视频与直播回放（YouTube）",
+    type: "course",
+    sourceName: "OpenAI Developers",
+    sourceUrl: "https://www.youtube.com/@OpenAIDevs/videos",
+    sourceRegion: "GLOBAL",
+    originalLanguage: "英文",
+    duration: "持续更新",
+    tags: ["海外趋势", "视频课程", "Prompt"],
+    audience: ["通用 HR", "HR 管理者"],
+    summary: "OpenAI 开发者频道公开视频，覆盖产品新能力和实操示例。",
+    chineseSummary: "无需邮箱登录即可观看，适合快速了解最新能力并转写成 HR 场景用法。",
+    relevanceToHR: "用于跟进模型新能力，并评估对招聘/HRBP流程的影响。",
+    translationAvailable: true,
+    subtitleAvailable: true,
+    recommendedAudience: "负责推动团队 AI 应用的管理者",
+    recommendedAction: "每周挑 1 条回放，沉淀“可落地动作清单”。",
+    shareSummary: "免登录回放资源，便于持续更新。",
+    featured: true,
+    collectionIds: ["col-global-trend"],
+  },
+  {
+    id: "ct-029",
+    slug: "youtube-google-ai-developers",
+    title: "Google AI Developers 官方公开视频",
+    type: "course",
+    sourceName: "Google for Developers",
+    sourceUrl: "https://www.youtube.com/@GoogleDevelopers/videos",
+    sourceRegion: "GLOBAL",
+    originalLanguage: "英文",
+    duration: "持续更新",
+    tags: ["海外趋势", "视频课程", "工具实践"],
+    audience: ["COE / OD", "HR 管理者"],
+    summary: "Google AI 官方视频内容，包含 Agent、搜索、工作流和实践案例。",
+    chineseSummary: "可免登录观看，建议配合中文要点提炼后在团队内部分享。",
+    relevanceToHR: "帮助 HR 更早识别行业通用方法与工具趋势。",
+    translationAvailable: true,
+    subtitleAvailable: true,
+    recommendedAudience: "负责工具选型和流程设计的角色",
+    recommendedAction: "围绕 HR 场景建立“本周可试点能力”看板。",
+    shareSummary: "公开视频资源稳定，适合持续追踪。",
+    featured: false,
+    collectionIds: ["col-global-trend"],
+  },
+  {
+    id: "ct-030",
+    slug: "youtube-microsoft-ai-show",
+    title: "Microsoft AI Show 公开实战课",
+    type: "course",
+    sourceName: "Microsoft Developer",
+    sourceUrl: "https://www.youtube.com/@MicrosoftDeveloper/videos",
+    sourceRegion: "GLOBAL",
+    originalLanguage: "英文",
+    duration: "持续更新",
+    tags: ["海外趋势", "视频课程", "多 Agent"],
+    audience: ["COE / OD", "HRBP"],
+    summary: "微软开发者公开视频，包含 Copilot、Agent 和自动化工作流案例。",
+    chineseSummary: "免登录可看，内容偏实操，适合拿来拆成 HR 流程模板。",
+    relevanceToHR: "可迁移到招聘协作、周报生成、政策问答等场景。",
+    translationAvailable: true,
+    subtitleAvailable: true,
+    recommendedAudience: "偏执行落地导向的 HRBP/COE",
+    recommendedAction: "选 1 个视频，复刻成内部演示流程。",
+    shareSummary: "公开视频 + 可复制实践。",
+    featured: false,
+    collectionIds: ["col-global-trend", "col-hr-tooling"],
+  },
 ];
 
+const globalLoginRequiredIds = new Set<string>([
+  "ct-003",
+  "ct-004",
+  "ct-005",
+  "ct-006",
+  "ct-007",
+  "ct-008",
+  "ct-009",
+  "ct-010",
+  "ct-015",
+]);
+
+const recentCourseCutoff = "2025-12-23";
+
+const coursePublishDateById: Record<string, string> = {
+  "ct-001": "2026-03-18",
+  "ct-003": "2026-03-10",
+  "ct-004": "2026-03-06",
+  "ct-005": "2026-03-02",
+  "ct-006": "2026-02-26",
+  "ct-007": "2026-02-20",
+  "ct-008": "2026-02-12",
+  "ct-009": "2026-02-08",
+  "ct-010": "2026-02-02",
+  "ct-011": "2026-01-28",
+  "ct-015": "2026-01-22",
+  "ct-018": "2026-01-15",
+  "ct-021": "2026-01-09",
+  "ct-027": "2026-03-21",
+  "ct-028": "2026-03-20",
+  "ct-029": "2026-03-17",
+  "ct-030": "2026-03-14",
+};
+
 export const contents: ContentItem[] = seedContents
-  .filter((item) => item.sourceRegion === "GLOBAL")
+  .filter((item) => item.sourceRegion === "CN" || !globalLoginRequiredIds.has(item.id))
   .map((item) => ({
     ...item,
-    access: "free",
-  }));
+    publishDate: item.type === "course" ? (item.publishDate ?? coursePublishDateById[item.id] ?? "2026-01-01") : item.publishDate,
+    access: "free" as const,
+    loginRequired: false,
+  }))
+  .filter((item) => item.type !== "course" || (item.publishDate ?? "") >= recentCourseCutoff)
+  .sort((a, b) => {
+    const ad = a.publishDate ?? "";
+    const bd = b.publishDate ?? "";
+    if (ad !== bd) {
+      return bd.localeCompare(ad);
+    }
+    if (a.featured !== b.featured) {
+      return a.featured ? -1 : 1;
+    }
+    return a.title.localeCompare(b.title);
+  });
 
 const seedUpdates: UpdateItem[] = [
   {
@@ -882,7 +1022,7 @@ const seedUpdates: UpdateItem[] = [
   },
 ];
 
-export const updates: UpdateItem[] = seedUpdates.filter((item) => item.sourceRegion === "GLOBAL");
+export const updates: UpdateItem[] = [...seedUpdates].sort((a, b) => (a.publishDate > b.publishDate ? -1 : 1));
 
 export const shortVideos: ShortVideoItem[] = [
   {
@@ -896,6 +1036,8 @@ export const shortVideos: ShortVideoItem[] = [
     summary: "用招聘场景解释“会聊天”与“会执行任务”的区别，适合团队统一概念。",
     keyPoints: ["什么是任务闭环", "HR 场景举例", "人机分工边界"],
     link: "https://www.douyin.com/search/ai%20agent%20hr",
+    coverImage:
+      "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80",
     subtitleAvailable: true,
     chineseBriefReady: true,
   },
@@ -910,6 +1052,8 @@ export const shortVideos: ShortVideoItem[] = [
     summary: "演示如何用固定输入模板快速优化 JD，并给出容易劝退候选人的表达替换建议。",
     keyPoints: ["输入字段怎么写", "输出结构怎么验收", "常见坑位"],
     link: "https://www.douyin.com/search/jd%20agent",
+    coverImage:
+      "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1200&q=80",
     subtitleAvailable: true,
     chineseBriefReady: true,
   },
@@ -924,6 +1068,8 @@ export const shortVideos: ShortVideoItem[] = [
     summary: "重点讲评分维度和证据化输出，让初筛结果可复核、可追踪。",
     keyPoints: ["评分维度设计", "证据引用", "人工抽检机制"],
     link: "https://www.douyin.com/search/%E7%AE%80%E5%8E%86%20agent",
+    coverImage:
+      "https://images.unsplash.com/photo-1573496529574-be85d6a60704?auto=format&fit=crop&w=1200&q=80",
     subtitleAvailable: true,
     chineseBriefReady: true,
   },
@@ -938,6 +1084,8 @@ export const shortVideos: ShortVideoItem[] = [
     summary: "用真实业务输入生成周会优先级、决策点和会后动作清单。",
     keyPoints: ["会前输入清单", "议题优先级", "行动项闭环"],
     link: "https://www.douyin.com/search/hrbp%20agent",
+    coverImage:
+      "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80",
     subtitleAvailable: true,
     chineseBriefReady: true,
   },
@@ -952,6 +1100,8 @@ export const shortVideos: ShortVideoItem[] = [
     summary: "强调版本号、生效日期和转人工规则，避免错误口径扩散。",
     keyPoints: ["版本管理", "敏感问题转人工", "答复留痕"],
     link: "https://www.douyin.com/search/%E6%94%BF%E7%AD%96%E9%97%AE%E7%AD%94%20agent",
+    coverImage:
+      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80",
     subtitleAvailable: true,
     chineseBriefReady: true,
   },
@@ -966,12 +1116,110 @@ export const shortVideos: ShortVideoItem[] = [
     summary: "角色、任务、输入、输出、规则、边界、评估，帮助团队快速起步。",
     keyPoints: ["7 步画布", "先小场景试点", "周复盘节奏"],
     link: "https://www.douyin.com/search/%E6%90%AD%E5%BB%BA%20agent%207%E6%AD%A5",
+    coverImage:
+      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80",
+    subtitleAvailable: true,
+    chineseBriefReady: true,
+  },
+  {
+    id: "sv-007",
+    title: "OpenAI DevDay: 构建可执行 Agent 的最佳实践",
+    platform: "YouTube",
+    creator: "OpenAI Developers",
+    duration: "11:26",
+    level: "进阶",
+    topic: "Agent 实战",
+    summary: "讲解工具调用、任务边界和真实业务落地策略，适合 HR 场景迁移。",
+    keyPoints: ["Function Calling", "边界定义", "失败兜底机制"],
+    link: "https://www.youtube.com/watch?v=U9mJuUkhUzk",
+    embedUrl: "https://www.youtube.com/embed/U9mJuUkhUzk",
+    coverImage: "https://img.youtube.com/vi/U9mJuUkhUzk/hqdefault.jpg",
+    subtitleAvailable: true,
+    chineseBriefReady: true,
+  },
+  {
+    id: "sv-008",
+    title: "Hugging Face: Agent Course 快速导读",
+    platform: "YouTube",
+    creator: "Hugging Face",
+    duration: "09:14",
+    level: "入门",
+    topic: "课程导读",
+    summary: "适合非技术同学快速进入 Agent 课程，先理解再实操。",
+    keyPoints: ["Agent 与 Chat 区别", "课程结构", "学习路径"],
+    link: "https://www.youtube.com/watch?v=fM4qTmj1q0Y",
+    embedUrl: "https://www.youtube.com/embed/fM4qTmj1q0Y",
+    coverImage: "https://img.youtube.com/vi/fM4qTmj1q0Y/hqdefault.jpg",
+    subtitleAvailable: true,
+    chineseBriefReady: true,
+  },
+  {
+    id: "sv-009",
+    title: "Google AI Studio 实操：从提示词到工作流",
+    platform: "YouTube",
+    creator: "Google for Developers",
+    duration: "12:03",
+    level: "进阶",
+    topic: "工作流实操",
+    summary: "展示从单次问答到多步骤流程的搭建过程，贴近 HR 实际自动化需求。",
+    keyPoints: ["多步骤流程", "输出结构化", "评估与迭代"],
+    link: "https://www.youtube.com/watch?v=G2fqAlgmoPo",
+    embedUrl: "https://www.youtube.com/embed/G2fqAlgmoPo",
+    coverImage: "https://img.youtube.com/vi/G2fqAlgmoPo/hqdefault.jpg",
+    subtitleAvailable: true,
+    chineseBriefReady: true,
+  },
+  {
+    id: "sv-010",
+    title: "Microsoft AI Show: Copilot 到 Agent 迁移",
+    platform: "YouTube",
+    creator: "Microsoft Developer",
+    duration: "10:22",
+    level: "进阶",
+    topic: "Copilot/Agent",
+    summary: "解释从助手到执行型 Agent 的演进，对 HR 团队规划路线很有帮助。",
+    keyPoints: ["助手 vs Agent", "可控性", "企业治理"],
+    link: "https://www.youtube.com/watch?v=jM2B7fZ-8C0",
+    embedUrl: "https://www.youtube.com/embed/jM2B7fZ-8C0",
+    coverImage: "https://img.youtube.com/vi/jM2B7fZ-8C0/hqdefault.jpg",
+    subtitleAvailable: true,
+    chineseBriefReady: true,
+  },
+  {
+    id: "sv-011",
+    title: "Prompt 到 SOP：让 AI 输出稳定可复用",
+    platform: "YouTube",
+    creator: "OpenAI Developers",
+    duration: "08:46",
+    level: "入门",
+    topic: "提示词模板",
+    summary: "重点讲如何定义输入、格式和质量标准，适合 HR 规模化复用。",
+    keyPoints: ["输入规范", "输出模板", "验收标准"],
+    link: "https://www.youtube.com/watch?v=Yf1o0TQzry8",
+    embedUrl: "https://www.youtube.com/embed/Yf1o0TQzry8",
+    coverImage: "https://img.youtube.com/vi/Yf1o0TQzry8/hqdefault.jpg",
+    subtitleAvailable: true,
+    chineseBriefReady: true,
+  },
+  {
+    id: "sv-012",
+    title: "招聘流程 Agent Demo：简历筛选到面试提纲",
+    platform: "抖音",
+    creator: "HR效率实验室",
+    duration: "03:44",
+    level: "进阶",
+    topic: "招聘全流程",
+    summary: "演示从简历解析、候选人评分到面试提纲输出的完整闭环。",
+    keyPoints: ["流程拆解", "评分标准", "人工复核点"],
+    link: "https://www.douyin.com/search/%E6%8B%9B%E8%81%98%20agent%20demo",
+    coverImage:
+      "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1200&q=80",
     subtitleAvailable: true,
     chineseBriefReady: true,
   },
 ];
 
-export const templates: TemplateItem[] = [
+const seedTemplates: TemplateItem[] = [
   {
     id: "tp-001",
     title: "JD 优化提示词模板",
@@ -1104,6 +1352,103 @@ export const templates: TemplateItem[] = [
   },
 ];
 
+const templateDetailMap: Record<
+  string,
+  Pick<TemplateItem, "steps" | "qualityChecklist" | "commonPitfalls" | "exampleInput" | "exampleOutput">
+> = {
+  "tp-001": {
+    steps: [
+      "先补齐岗位目标、团队阶段、招聘优先级",
+      "再输入原始 JD，要求模型按固定字段输出",
+      "输出后先看“岗位目标是否可衡量”",
+      "最后做风险词审查并给业务确认",
+    ],
+    qualityChecklist: [
+      "岗位目标是否具体且可衡量",
+      "必须能力与加分项是否分离",
+      "是否删除空泛词与歧义描述",
+      "是否包含候选人关心的成长与协作信息",
+    ],
+    commonPitfalls: [
+      "只改文字不补齐业务背景",
+      "把“加分项”误写成“必须条件”",
+      "没有输出劝退表达替换建议",
+    ],
+    exampleInput:
+      "岗位：高级招聘专家；目标：45 天内补齐客户端岗位；原始 JD：负责招聘全流程，沟通能力强，有责任心...",
+    exampleOutput:
+      "岗位目标（3 条）+ 核心职责（5 条）+ 必须能力（4 条）+ 加分项（3 条）+ 风险表达替换建议（2 条）",
+  },
+  "tp-002": {
+    steps: ["先定义评分维度", "再喂简历文本", "要求证据化输出", "最后人工抽检前 20% 样本"],
+    qualityChecklist: ["是否有维度分", "是否有原文证据", "是否有风险说明", "是否给出下一步动作"],
+    commonPitfalls: ["直接让模型给结论", "没有评分标准", "未限制敏感属性判断"],
+    exampleInput: "岗位：算法工程师；维度：经验匹配/项目复杂度/稳定性；简历：...",
+    exampleOutput: "表格：维度分 | 证据 | 风险 | 建议动作（进入下一轮/补充信息/暂不推荐）",
+  },
+  "tp-003": {
+    steps: ["先定义岗位层级", "指定重点能力", "生成问题+追问", "按优秀/风险信号复核"],
+    qualityChecklist: ["问题是否可验证能力", "追问是否具体", "是否区分初中高级候选人", "是否可用于结构化评分"],
+    commonPitfalls: ["问题过泛", "没有追问方向", "忽略岗位层级差异"],
+    exampleInput: "岗位：HRBP（中级）；能力：业务理解/影响力/组织诊断",
+    exampleOutput: "10 个行为问题，每题附提问目的、追问、优秀回答信号、风险信号",
+  },
+  "tp-004": {
+    steps: ["收集多面试官反馈", "按能力维度归类", "提取一致点和分歧点", "输出补充面试建议"],
+    qualityChecklist: ["是否保留原始证据", "是否区分事实和判断", "分歧点是否清晰", "是否给补充验证建议"],
+    commonPitfalls: ["强行求平均", "没有分歧记录", "直接给录用结论"],
+    exampleInput: "A 面试官反馈：沟通强；B 面试官反馈：业务理解不足",
+    exampleOutput: "能力维度汇总 + 证据 + 分歧点 + 下一轮建议问题",
+  },
+  "tp-005": {
+    steps: ["导入周数据", "生成数据概览", "标记关键问题", "输出下周动作和责任人"],
+    qualityChecklist: ["是否有环比/同比", "问题是否有原因假设", "动作是否可执行", "是否明确责任人和截止时间"],
+    commonPitfalls: ["只报数字不报动作", "没有优先级", "缺少管理支持请求"],
+    exampleInput: "投递 340、初筛 96、面试 40、offer 7、拒绝原因 Top3...",
+    exampleOutput: "五段式周报：概览/进展/问题/原因/下周动作（含负责人）",
+  },
+  "tp-006": {
+    steps: ["会前收集业务输入", "排序议题优先级", "生成沟通提纲", "给会后行动项模板"],
+    qualityChecklist: ["是否贴合业务目标", "是否包含风险预警", "是否有决策点", "会后动作是否可追踪"],
+    commonPitfalls: ["议题过多", "没有优先级", "会后动作无责任人"],
+    exampleInput: "业务目标：Q2 增长；人才动态：核心岗位空缺 2；风险：关键人才流失",
+    exampleOutput: "3 个高优议题 + 决策点 + 行动项（负责人/时间）",
+  },
+  "tp-007": {
+    steps: ["识别管理层关心的决策", "先输出结论", "再补证据和选项", "最后标注风险与下一步"],
+    qualityChecklist: ["是否结论先行", "是否提供 A/B 选项", "风险是否量化", "是否给到管理动作建议"],
+    commonPitfalls: ["铺陈背景过多", "缺少决策选项", "没有风险边界"],
+    exampleInput: "原始汇报稿 + 管理层关注：招聘速度与组织稳定",
+    exampleOutput: "结论先行版 1 页 + 决策建议版 1 页 + 风险说明",
+  },
+  "tp-008": {
+    steps: ["定义问题现象", "提出原因假设", "列出验证数据", "拆解短中期动作"],
+    qualityChecklist: ["问题定义是否可验证", "原因假设是否分层", "验证数据是否可获取", "动作是否有优先级"],
+    commonPitfalls: ["直接给结论", "没有验证路径", "动作过泛"],
+    exampleInput: "现象：团队协作效率下降；数据：需求交付延迟、离职率上升",
+    exampleOutput: "问题树 + 假设优先级 + 数据验证计划 + 行动方案",
+  },
+  "tp-009": {
+    steps: ["读取政策条款和版本", "生成标准答复", "引用条款编号", "判断是否转人工"],
+    qualityChecklist: ["是否引用条款", "是否标注版本/生效日期", "是否有转人工条件", "是否避免个案误判"],
+    commonPitfalls: ["未引用条款", "政策版本过期", "个案直接自动结论"],
+    exampleInput: "问题：试用期请假怎么算？政策版本：2026V2",
+    exampleOutput: "标准答复 + 条款编号 + 适用范围 + 升级路径",
+  },
+  "tp-010": {
+    steps: ["抓取原文关键观点", "转写中文导读", "映射 HR 场景价值", "输出可执行动作"],
+    qualityChecklist: ["摘要是否准确", "是否说明与 HR 关系", "动作是否本周可执行", "是否提示不适用场景"],
+    commonPitfalls: ["直译术语堆砌", "没有行动建议", "缺乏风险提醒"],
+    exampleInput: "原文：某海外 Agent 文章链接 + 摘要",
+    exampleOutput: "1 句话结论 + 3 关键点 + HR 价值 + 2 个本周动作",
+  },
+};
+
+export const templates: TemplateItem[] = seedTemplates.map((item) => ({
+  ...item,
+  ...templateDetailMap[item.id],
+}));
+
 export const agentGuides: AgentGuide[] = [
   {
     id: "ag-001",
@@ -1195,9 +1540,9 @@ export const collections: Collection[] = [
     contentSlugs: [
       "hf-agents-course",
       "hf-agents-unit0",
-      "dlai-agentic-ai",
-      "dlai-evaluating-agents",
-      "dlai-governing-agents",
+      "openai-prompting-guide",
+      "microsoft-autogen-docs",
+      "langchain-agents-docs",
       "tencent-cloudbase-agent-quickstart",
     ],
   },
@@ -1211,9 +1556,10 @@ export const collections: Collection[] = [
       "openai-academy-home",
       "openai-helping-job-seekers",
       "anthropic-prompt-engineering",
-      "google-agent-development-kit",
-      "dlai-browser-agents",
-      "dlai-coding-agents-tool-execution",
+      "youtube-huggingface-agents-playlist",
+      "youtube-openai-developers",
+      "youtube-google-ai-developers",
+      "youtube-microsoft-ai-show",
     ],
   },
   {
@@ -1227,7 +1573,7 @@ export const collections: Collection[] = [
       "openai-helping-job-seekers",
       "baidu-openclass",
       "tencent-edu-course-3217",
-      "dlai-crewai",
+      "youtube-openai-developers",
     ],
   },
   {
@@ -1237,8 +1583,8 @@ export const collections: Collection[] = [
     cover: "本周摘要",
     shareSummary: "适合管理层快速掌握 AI 对 HR 的影响。",
     contentSlugs: [
-      "dlai-governing-agents",
-      "dlai-evaluating-agents",
+      "youtube-huggingface-agents-playlist",
+      "youtube-openai-developers",
       "tencent-adp",
       "aliyun-modelstudio-product",
       "google-vertex-ai-agent-builder",

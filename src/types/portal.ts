@@ -9,6 +9,7 @@ export interface ContentItem {
   title: string;
   type: ContentType;
   access: "free" | "freemium" | "paid";
+  loginRequired?: boolean;
   sourceName: string;
   sourceUrl: string;
   sourceRegion: SourceRegion;
@@ -105,7 +106,7 @@ export interface FeedSource {
 export interface ShortVideoItem {
   id: string;
   title: string;
-  platform: "抖音";
+  platform: "抖音" | "YouTube";
   creator: string;
   duration: string;
   level: "入门" | "进阶";
@@ -113,6 +114,19 @@ export interface ShortVideoItem {
   summary: string;
   keyPoints: string[];
   link: string;
+  embedUrl?: string;
+  coverImage?: string;
   subtitleAvailable: boolean;
   chineseBriefReady: boolean;
+}
+
+export interface KeywordRadarItem {
+  id: string;
+  keyword: string;
+  meaning: string;
+  resumeHint: string;
+  hrUseCases: string[];
+  latestDiscussion: string;
+  trendingSignals: string[];
+  trendScore: number;
 }
