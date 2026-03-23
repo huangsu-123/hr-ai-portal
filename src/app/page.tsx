@@ -1,66 +1,150 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Link from "next/link";
+import { ContentCard } from "@/components/ContentCard";
+import { collections, contents, updates } from "@/data/portal";
+import { latestDate, stats } from "@/lib/portal";
 
-export default function Home() {
+const featured = contents.filter((item) => item.featured).slice(0, 6);
+const domestic = contents.filter((item) => item.sourceRegion === "CN").slice(0, 4);
+const global = contents.filter((item) => item.sourceRegion === "GLOBAL").slice(0, 4);
+const latestUpdates = updates.filter((item) => item.publishDate === latestDate).slice(0, 6);
+
+export default function HomePage() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
+    <div className="container pageStack">
+      <section className="hero">
+        <div>
+          <p className="eyebrow">内容中台 + 资料门户</p>
+          <h1>HR AI 学习资料库与行业情报站</h1>
           <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
+            面向游戏和互联网 HR 团队，集中沉淀 AI/Agent 学习资料、行业动态、模板与场景案例。每条海外内容都提供中文辅助理解，支持团队快速分享和复用。
           </p>
+          <div className="heroActions">
+            <Link href="/library" className="btn primary">
+              进入资料中心
+            </Link>
+            <Link href="/intel" className="btn ghost">
+              查看每日情报
+            </Link>
+          </div>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className="heroPanel">
+          <h3>平台价值点</h3>
+          <ul>
+            <li>资料集中：课程/文章/视频/模板统一检索</li>
+            <li>持续更新：每日与每周行业情报结构化沉淀</li>
+            <li>中文辅助：海外内容标注中文摘要与字幕状态</li>
+            <li>方便分享：详情页、专题合集、转发摘要一次到位</li>
+          </ul>
+          <div className="statsGrid">
+            <div>
+              <strong>{stats.contentCount}</strong>
+              <span>资料条目</span>
+            </div>
+            <div>
+              <strong>{stats.updateCount}</strong>
+              <span>情报更新</span>
+            </div>
+            <div>
+              <strong>{stats.templateCount}</strong>
+              <span>模板资源</span>
+            </div>
+            <div>
+              <strong>{stats.agentCount}</strong>
+              <span>Agent 场景</span>
+            </div>
+          </div>
         </div>
-      </main>
+      </section>
+
+      <section className="section">
+        <div className="sectionHead">
+          <h2>最近更新</h2>
+          <Link href="/intel" className="textLink">
+            进入行业情报页
+          </Link>
+        </div>
+        <div className="listBoard">
+          {latestUpdates.map((item) => (
+            <article key={item.id} className="listItem">
+              <div>
+                <h3>{item.title}</h3>
+                <p>{item.chineseSummary}</p>
+              </div>
+              <span>{item.publishDate}</span>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="sectionHead">
+          <h2>精选资料</h2>
+          <Link href="/library" className="textLink">
+            查看全部资料
+          </Link>
+        </div>
+        <div className="grid3">
+          {featured.map((item) => (
+            <ContentCard key={item.id} item={item} />
+          ))}
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="sectionHead">
+          <h2>国内内容专区</h2>
+        </div>
+        <div className="grid2">
+          {domestic.map((item) => (
+            <ContentCard key={item.id} item={item} />
+          ))}
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="sectionHead">
+          <h2>海外内容专区（含中文辅助）</h2>
+        </div>
+        <div className="grid2">
+          {global.map((item) => (
+            <ContentCard key={item.id} item={item} />
+          ))}
+        </div>
+      </section>
+
+      <section className="section shortcuts">
+        <Link href="/agent-playbook" className="shortcutCard">
+          <h3>HR Agent 专题入口</h3>
+          <p>6 个 HR 场景 + 方法论 + 课程/模板关联</p>
+        </Link>
+        <Link href="/templates" className="shortcutCard">
+          <h3>模板资源入口</h3>
+          <p>10 个可复用提示词/SOP/工作流模板</p>
+        </Link>
+        <Link href="/collections" className="shortcutCard">
+          <h3>专题合集入口</h3>
+          <p>支持团队转发的一页式合集</p>
+        </Link>
+      </section>
+
+      <section className="section">
+        <div className="sectionHead">
+          <h2>热门分享内容</h2>
+        </div>
+        <div className="listBoard">
+          {collections.slice(0, 4).map((item) => (
+            <article key={item.id} className="listItem">
+              <div>
+                <h3>{item.title}</h3>
+                <p>{item.shareSummary}</p>
+              </div>
+              <Link href="/collections" className="textLink">
+                查看合集
+              </Link>
+            </article>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

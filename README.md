@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# HR AI 学习与实战门户（原型）
 
-## Getting Started
+面向游戏行业与互联网行业 HR 团队的内部学习与实战平台原型。
 
-First, run the development server:
+## 技术栈
+
+- Next.js (App Router)
+- React
+- TypeScript
+- CSS（结构化样式 + 响应式）
+
+## 本地运行
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+打开 [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 已实现页面
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `/` 首页
+- `/courses` 课程列表页
+- `/courses/[slug]` 课程详情页
+- `/updates` 每日更新页
+- `/agent-playbook` Agent 实战页
+- `/templates` 模板资源页
+- `/admin` 简易后台（每日更新 JSON 录入 + 一键发布）
+- `/about` 关于页
 
-## Learn More
+## 数据结构
 
-To learn more about Next.js, take a look at the following resources:
+所有内容均从独立数据文件读取，便于后续接 CMS 或接口：
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `src/data/courses.ts` 课程数据
+- `src/data/updates.ts` 每日动态
+- `src/data/agents.ts` Agent 场景与方法论
+- `src/data/templates.ts` 模板资源
+- `src/data/taxonomy.ts` 分类与标签
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+关键字段已覆盖：
+- `sourceRegion`
+- `originalLanguage`
+- `translationAvailable`
+- `subtitleAvailable`
+- `chineseSummary` / `chineseBrief`
 
-## Deploy on Vercel
+## 后续扩展建议
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- 每日动态自动更新：新增抓取任务写入 `updates` 数据源，并增加人工审核流。
+- 后台管理：把 `src/data/*` 替换为 CMS API，前端保留同字段渲染。
+- 翻译与字幕：新增翻译服务层，写回 `translationAvailable/subtitleAvailable/chineseSummary`。
+- 用户能力：接入登录、收藏、学习进度、推荐系统。
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 内容发布流程（V1）
+
+说明：`/admin` 的“一键发布”会写入仓库文件，建议在本地运行项目后使用，再通过 Git 推到线上。
+
+1. 运行站点并打开 `/admin`
+2. 在 JSON 编辑区维护每日动态（支持本地草稿）
+3. 点击“一键发布到内容库”（会覆盖 `src/data/updates.ts`）
+4. 执行：
+
+```bash
+git add .
+git commit -m "content: update daily feed"
+git push
+```
+
+5. Vercel 会自动触发部署并上线新内容
