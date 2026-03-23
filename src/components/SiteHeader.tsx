@@ -10,7 +10,6 @@ const navItems = [
   { href: "/agent-playbook", label: "Agent 专题" },
   { href: "/templates", label: "模板资源" },
   { href: "/collections", label: "专题合集" },
-  { href: "/admin", label: "管理入口" },
 ];
 
 export function SiteHeader() {
