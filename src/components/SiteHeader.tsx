@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 const navItems = [
   { href: "/", label: "首页" },
   { href: "/library", label: "资料中心" },
+  { href: "/video-learning", label: "视频学习" },
   { href: "/intel", label: "行业情报" },
   { href: "/resume-keywords", label: "关键词雷达" },
   { href: "/agent-playbook", label: "Agent 专题" },

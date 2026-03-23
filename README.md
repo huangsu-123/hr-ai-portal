@@ -21,6 +21,7 @@ npm run dev
 ## 已实现页面
 
 - `/` 首页
+- `/video-learning` 视频学习中心（短视频速学 + 长视频深学）
 - `/courses` 课程列表页
 - `/courses/[slug]` 课程详情页
 - `/updates` 每日更新页
@@ -28,6 +29,11 @@ npm run dev
 - `/templates` 模板资源页
 - `/admin` 简易后台（每日更新 JSON 录入 + 一键发布）
 - `/about` 关于页
+
+## 快速文档
+
+- `PROMPTS.md`：可直接复制到 AI 开发助手的项目提示词
+- `DEPLOY.md`：GitHub + Vercel 快速部署流程
 
 ## 数据结构
 

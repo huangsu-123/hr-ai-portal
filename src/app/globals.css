@@ -750,6 +750,46 @@ h1 {
   text-align: center;
 }
 
+.videoLearningGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.videoTrackCol {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background:
+    linear-gradient(150deg, rgba(14, 66, 86, 0.02), rgba(14, 66, 86, 0)),
+    linear-gradient(0deg, #ffffff, #fbfefe);
+  padding: 14px;
+}
+
+.videoTrackHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.videoCardList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.videoLearningCard {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px;
+  background: #ffffff;
+}
+
+.videoLearningCard h4 {
+  margin: 8px 0 6px;
+  font-size: 0.98rem;
+}
+
 .siteFooter {
   border-top: 1px solid var(--line);
   padding: 16px 0 24px;
@@ -770,7 +810,8 @@ h1 {
   .split,
   .grid3,
   .filterGrid,
-  .shortcuts {
+  .shortcuts,
+  .videoLearningGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -798,6 +839,7 @@ h1 {
   .split,
   .filterGrid,
   .shortcuts,
+  .videoLearningGrid,
   .statsGrid,
   .metaGrid {
     grid-template-columns: 1fr;

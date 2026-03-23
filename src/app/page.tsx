@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { ContentCard } from "@/components/ContentCard";
 import { KeywordRadarBoard } from "@/components/KeywordRadarBoard";
-import { ShortVideoWall } from "@/components/ShortVideoWall";
-import { collections, contents, shortVideos } from "@/data/portal";
+import { VideoLearningSection } from "@/components/VideoLearningSection";
+import { collections, contents } from "@/data/portal";
+import { longVideoFeed, shortVideoFeed } from "@/data/video-learning";
 import { getRealtimeUpdatesWithMeta } from "@/lib/live-updates";
 import { stats } from "@/lib/portal";
 
@@ -88,7 +89,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <ShortVideoWall videos={shortVideos} />
+      <VideoLearningSection shortItems={shortVideoFeed.slice(0, 3)} longItems={longVideoFeed.slice(0, 3)} />
 
       <section className="section">
         <div className="sectionHead">
