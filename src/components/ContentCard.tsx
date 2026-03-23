@@ -2,10 +2,12 @@ import Link from "next/link";
 import { typeLabel } from "@/lib/portal";
 import type { ContentItem } from "@/types/portal";
 import { ContentMetaBadges } from "@/components/ContentMetaBadges";
+import { ContentCover } from "@/components/ContentCover";
 
 export function ContentCard({ item }: { item: ContentItem }) {
   return (
     <article className="card">
+      <ContentCover item={item} />
       <div className="cardTop">
         <span className="pill">{typeLabel[item.type]}</span>
         <span className="mutedSmall">{item.publishDate ?? item.duration ?? "持续更新"}</span>

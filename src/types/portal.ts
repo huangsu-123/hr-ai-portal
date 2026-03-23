@@ -8,6 +8,7 @@ export interface ContentItem {
   slug: string;
   title: string;
   type: ContentType;
+  access: "free" | "freemium" | "paid";
   sourceName: string;
   sourceUrl: string;
   sourceRegion: SourceRegion;
@@ -60,6 +61,11 @@ export interface TemplateItem {
   outputFormat: string;
   template: string;
   usageTip: string;
+  steps?: string[];
+  qualityChecklist?: string[];
+  commonPitfalls?: string[];
+  exampleInput?: string;
+  exampleOutput?: string;
 }
 
 export interface AgentGuide {
@@ -94,4 +100,19 @@ export interface FeedSource {
   url: string;
   enabled: boolean;
   note: string;
+}
+
+export interface ShortVideoItem {
+  id: string;
+  title: string;
+  platform: "抖音";
+  creator: string;
+  duration: string;
+  level: "入门" | "进阶";
+  topic: string;
+  summary: string;
+  keyPoints: string[];
+  link: string;
+  subtitleAvailable: boolean;
+  chineseBriefReady: boolean;
 }

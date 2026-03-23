@@ -1,4 +1,12 @@
-import type { AgentGuide, Collection, ContentItem, FeedSource, TemplateItem, UpdateItem } from "@/types/portal";
+import type {
+  AgentGuide,
+  Collection,
+  ContentItem,
+  FeedSource,
+  ShortVideoItem,
+  TemplateItem,
+  UpdateItem,
+} from "@/types/portal";
 
 export const categories = [
   "AI Agent",
@@ -21,7 +29,7 @@ export const tags = [
   "可分享",
 ] as const;
 
-export const contents: ContentItem[] = [
+const seedContents: Omit<ContentItem, "access">[] = [
   {
     id: "ct-001",
     slug: "hf-agents-course",
@@ -625,7 +633,14 @@ export const contents: ContentItem[] = [
   },
 ];
 
-export const updates: UpdateItem[] = [
+export const contents: ContentItem[] = seedContents
+  .filter((item) => item.sourceRegion === "GLOBAL")
+  .map((item) => ({
+    ...item,
+    access: "free",
+  }));
+
+const seedUpdates: UpdateItem[] = [
   {
     id: "up-001",
     title: "今日新增：Hugging Face Agent 课程入门导读",
@@ -864,6 +879,95 @@ export const updates: UpdateItem[] = [
     hrFocus: true,
     toolUpdate: false,
     translationAvailable: true,
+  },
+];
+
+export const updates: UpdateItem[] = seedUpdates.filter((item) => item.sourceRegion === "GLOBAL");
+
+export const shortVideos: ShortVideoItem[] = [
+  {
+    id: "sv-001",
+    title: "3 分钟搞懂：AI Agent 和普通 AI 助手差在哪",
+    platform: "抖音",
+    creator: "AI职场小北",
+    duration: "03:12",
+    level: "入门",
+    topic: "Agent 基础认知",
+    summary: "用招聘场景解释“会聊天”与“会执行任务”的区别，适合团队统一概念。",
+    keyPoints: ["什么是任务闭环", "HR 场景举例", "人机分工边界"],
+    link: "https://www.douyin.com/search/ai%20agent%20hr",
+    subtitleAvailable: true,
+    chineseBriefReady: true,
+  },
+  {
+    id: "sv-002",
+    title: "JD 优化 Agent 实操演示：从粗稿到可发布",
+    platform: "抖音",
+    creator: "招聘效率实验室",
+    duration: "02:48",
+    level: "入门",
+    topic: "招聘提效",
+    summary: "演示如何用固定输入模板快速优化 JD，并给出容易劝退候选人的表达替换建议。",
+    keyPoints: ["输入字段怎么写", "输出结构怎么验收", "常见坑位"],
+    link: "https://www.douyin.com/search/jd%20agent",
+    subtitleAvailable: true,
+    chineseBriefReady: true,
+  },
+  {
+    id: "sv-003",
+    title: "简历初筛 Agent：如何避免“拍脑袋”筛人",
+    platform: "抖音",
+    creator: "HR数据化笔记",
+    duration: "04:06",
+    level: "进阶",
+    topic: "招聘流程自动化",
+    summary: "重点讲评分维度和证据化输出，让初筛结果可复核、可追踪。",
+    keyPoints: ["评分维度设计", "证据引用", "人工抽检机制"],
+    link: "https://www.douyin.com/search/%E7%AE%80%E5%8E%86%20agent",
+    subtitleAvailable: true,
+    chineseBriefReady: true,
+  },
+  {
+    id: "sv-004",
+    title: "HRBP 周会准备 Agent：30 分钟完成议题稿",
+    platform: "抖音",
+    creator: "HRBP效率派",
+    duration: "03:30",
+    level: "入门",
+    topic: "HRBP 场景",
+    summary: "用真实业务输入生成周会优先级、决策点和会后动作清单。",
+    keyPoints: ["会前输入清单", "议题优先级", "行动项闭环"],
+    link: "https://www.douyin.com/search/hrbp%20agent",
+    subtitleAvailable: true,
+    chineseBriefReady: true,
+  },
+  {
+    id: "sv-005",
+    title: "政策问答 Agent：如何答得快又不踩合规线",
+    platform: "抖音",
+    creator: "组织治理研究社",
+    duration: "03:58",
+    level: "进阶",
+    topic: "合规与边界",
+    summary: "强调版本号、生效日期和转人工规则，避免错误口径扩散。",
+    keyPoints: ["版本管理", "敏感问题转人工", "答复留痕"],
+    link: "https://www.douyin.com/search/%E6%94%BF%E7%AD%96%E9%97%AE%E7%AD%94%20agent",
+    subtitleAvailable: true,
+    chineseBriefReady: true,
+  },
+  {
+    id: "sv-006",
+    title: "1 张图理解 HR Agent 搭建 7 步法",
+    platform: "抖音",
+    creator: "AI落地教练Lena",
+    duration: "02:36",
+    level: "入门",
+    topic: "搭建方法论",
+    summary: "角色、任务、输入、输出、规则、边界、评估，帮助团队快速起步。",
+    keyPoints: ["7 步画布", "先小场景试点", "周复盘节奏"],
+    link: "https://www.douyin.com/search/%E6%90%AD%E5%BB%BA%20agent%207%E6%AD%A5",
+    subtitleAvailable: true,
+    chineseBriefReady: true,
   },
 ];
 

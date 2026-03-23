@@ -1,4 +1,4 @@
-import { agentGuides, collections, contents, templates, updates } from "@/data/portal";
+import { agentGuides, collections, contents, shortVideos, templates, updates } from "@/data/portal";
 import type { ContentItem } from "@/types/portal";
 
 export const regionLabel: Record<string, string> = {
@@ -42,6 +42,7 @@ export const stats = {
   updateCount: updates.length,
   templateCount: templates.length,
   agentCount: agentGuides.length,
+  shortVideoCount: shortVideos.length,
   overseasCount: contents.filter((item) => item.sourceRegion === "GLOBAL").length,
   translatedCount: contents.filter((item) => item.translationAvailable).length,
 };

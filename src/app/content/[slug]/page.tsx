@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ContentCard } from "@/components/ContentCard";
+import { ContentCover } from "@/components/ContentCover";
 import { ContentMetaBadges } from "@/components/ContentMetaBadges";
 import { contents } from "@/data/portal";
 import { getContentBySlug, getRelatedContents, typeLabel } from "@/lib/portal";
@@ -31,6 +32,9 @@ export default async function ContentDetailPage({ params }: DetailProps) {
         </Link>
         <h1>{item.title}</h1>
         <p className="muted">{item.summary}</p>
+        <div className="detailCoverWrap">
+          <ContentCover item={item} compact={false} />
+        </div>
         <ContentMetaBadges content={item} />
         <div className="metaGrid">
           <p>

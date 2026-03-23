@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ContentCard } from "@/components/ContentCard";
-import { collections, contents, updates } from "@/data/portal";
+import { ShortVideoCard } from "@/components/ShortVideoCard";
+import { collections, contents, shortVideos, updates } from "@/data/portal";
 import { latestDate, stats } from "@/lib/portal";
 
 const featured = contents.filter((item) => item.featured).slice(0, 6);
@@ -52,7 +53,23 @@ export default function HomePage() {
               <strong>{stats.agentCount}</strong>
               <span>Agent 场景</span>
             </div>
+            <div>
+              <strong>{stats.shortVideoCount}</strong>
+              <span>短视频科普</span>
+            </div>
           </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="sectionHead">
+          <h2>短视频科普（抖音）</h2>
+          <p className="muted">3-4 分钟快速理解一个 AI Agent 重点，学习更轻松</p>
+        </div>
+        <div className="grid3">
+          {shortVideos.map((item) => (
+            <ShortVideoCard key={item.id} item={item} />
+          ))}
         </div>
       </section>
 
@@ -79,6 +96,7 @@ export default function HomePage() {
       <section className="section">
         <div className="sectionHead">
           <h2>精选资料</h2>
+          <p className="muted">图文/视频封面化展示，降低阅读门槛</p>
           <Link href="/library" className="textLink">
             查看全部资料
           </Link>
